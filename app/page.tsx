@@ -15,12 +15,21 @@ import { ProductSort } from "@/components/product-sort";
 
 
 
-interface Props {}
+interface Props {
+  searchParams: {
+    date?: string,
+    price?: string
+  }
+}
 
-export default async function Page() {
+export default async function Page({ searchParams }: Props) {
+  const { date = "desc", price } = searchParams
+  const priceOrder = price? `| order(price ${price})` : ""
+  const dateOrder = date? `| order(_createdAt ${date})` : ""
+  const order = `${priceOrder}${dateOrder}`
   const products = await client.fetch<
     SanityProduct[]
-  >(groq`*[_type == "product"] {
+  >(groq`*[_type == "product"] ${order} {
     _id,
     _createdAt,
     name,
@@ -31,7 +40,7 @@ export default async function Page() {
     description,
     "slug": slug.current
   }`)
-  console.log(products)
+  // console.log(products)
   return (
     <div>
       <div className="px-4 pt-20 text-center">
