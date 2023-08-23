@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 export function CartSummary() {
   const { formattedTotalPrice, totalPrice, cartDetails, cartCount, redirectToCheckout } = useShoppingCart()
 
-  const shippingAmount = (cartCount > 0 ? 500 : 0)
+  const shippingAmount = cartCount! > 0 ? 500 : 0
   const totalAmount = totalPrice! + shippingAmount
   const [isLoading, setIsLoading] = useState(false)
   const isDisabled = isLoading || cartCount! === 0
