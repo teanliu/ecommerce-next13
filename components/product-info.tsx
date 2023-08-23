@@ -25,16 +25,23 @@ export function ProductInfo({ product }: Props) {
   const [selectedSize, setSelectedSize] = useState(product.sizes[0])
   const { addItem, incrementItem, cartDetails } = useShoppingCart()
   const { toast } = useToast()
-  const isInCart = !!cartDetails?.[product._id]
+
+  // const isInCart = !!cartDetails?.[product._id]
+  const isInCart = !!cartDetails?.[product.id]
 
   function addToCart() {
     const item = {
       ...product,
       product_data: {
-        size: selectedSize
-      }
+        size: selectedSize,
+      },
     }
-    isInCart ? incrementItem(item._id) : addItem(item)
+    item["id"] = `${item["id"]}-${selectedSize}`
+    // item["_id"] = `${item["_id"]}-${selectedSize}`
+    // isInCart ? incrementItem(item.id) : addItem(item)
+    // isInCart && selectedSize === product.product_data?.size ? incrementItem(item._id) : addItem(item)
+    isInCart ? incrementItem(item.id) : addItem(item)
+
     toast({
       title: `${item.name} (${getSizeName(selectedSize)})`,
       description: "Product added to cart",
