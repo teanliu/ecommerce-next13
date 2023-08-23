@@ -31,7 +31,7 @@ export function CartItems() {
     // removeItem(product._id)
     // removeItem(`${product.id}-${product.product_data.size}`)
     toast({
-      title: `${product.name} (${getSizeName(product.product_data.size)}) removed`,
+      title: `${product.name} (${getSizeName(product.product_data?.size)}) removed`,
       description: "Product removed from cart",
       variant: "destructive",
     })
